@@ -1,0 +1,34 @@
+<%- include("partials/header"); %> <% if (err) { %>
+<p style="color: red">Error: <%= err %></p>
+<% } else if (item) { %>
+<h2>Item Details</h2>
+<ul>
+  <li>ID: <%= item.Commodity_ID01 %></li>
+  <li>Name: <%= item.Commodity_Name01 %></li>
+  <li>Weight: <%= item.Commodity_Weight %></li>
+  <li>Fineness: <%= item.Commodity_Fineness %></li>
+  <li>Price: <%= item.Commodity_Price %></li>
+</ul>
+
+<form action="/delete-item" method="POST">
+  <input type="hidden" name="itemId" value="<%= item.Commodity_ID01 %>" />
+  <button
+    class="btn"
+    type="submit"
+    onclick="return confirm('Are you sure you want to delete this item?')"
+  >
+    Delete Item
+  </button>
+</form>
+
+<% } else { %>
+<p>No item found with ID: <%= searchId %></p>
+<% } %>
+
+<form action="/find-item">
+  <label for="itemId">Item ID:</label>
+  <input class="form-control" type="text" id="itemId" name="itemId" />
+  <button class="btn" type="submit">Find Item</button>
+</form>
+
+<%- include("partials/footer"); %>

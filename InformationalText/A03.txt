@@ -1,0 +1,37 @@
+netstat -aon | findstr :3000
+taskkill /PID <process_id> /F
+
+These commands are for checking and closing a process using a specific port. Let's break them down:
+
+**1. netstat -aon | findstr :3000**
+
+* This command checks for open ports on your system.
+  * `netstat`: This is a command-line tool for network information.
+  * `-a`: Shows all connections and listening ports.
+  * `-o`: Shows the process ID (PID) for each connection.
+  * `-n`: Shows IP addresses and port numbers numerically.
+  * `|`: Pipes the output of `netstat` to `findstr`.
+  * `findstr :3000`: Filters the output to only show lines containing ":3000". This helps identify processes using port 3000.
+
+**2. taskkill /PID <process_id> /F**
+
+* This command terminates a process using its Process ID (PID).
+  * `taskkill`: This is a command-line tool for managing processes.
+  * `/PID`: Specifies that we're targeting a process by its ID.
+  * `<process_id>`: Replace this with the actual PID obtained from the `netstat` command output.
+  * `/F`: Forces the termination of the process, even if it doesn't respond normally.
+
+**Important Note:**
+
+* Be cautious while using `taskkill`. Terminating critical system processes can cause unexpected behavior. 
+
+Here's how to use them together:
+
+1. Run `netstat -aon | findstr :3000` to identify the PID of the process using port 3000.
+2. If you want to terminate that process, note down the PID.
+3. **Only if necessary**, run `taskkill /PID <PID> /F` replacing `<PID>` with the actual process ID.
+
+**Additional Tips:**
+
+* Make sure you understand what process is using port 3000 before terminating it. 
+* You can sometimes close a program by closing its user interface window instead of using `taskkill`.

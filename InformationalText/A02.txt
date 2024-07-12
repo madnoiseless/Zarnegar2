@@ -1,0 +1,32 @@
+USE master
+GO
+xp_readerrorlog 0, 1, N'Server is listening on' 
+GO
+
+This code snippet is designed to check the port number that a SQL Server instance is listening on. Let's break it down:
+
+1. **USE master:** This line tells SQL Server to connect to the master database. This database is used for server-level configuration and tasks.
+2. **GO:** This statement acts as a command terminator in Transact-SQL (T-SQL). 
+3. **xp_readerrorlog:** This is an extended stored procedure used to read entries from the SQL Server error log. It takes several parameters:
+    * **0**: This specifies that we want to read from the current error log file (0) instead of archived logs (values greater than 0).
+    * **1**: This restricts the output to only the first record found (1). You can change this value to retrieve more entries.
+    * **N'Server is listening on'**: This is the search string we're looking for in the error log. It typically appears when the SQL Server instance starts and specifies the port it's using.
+    * **N'any'**: This parameter is optional here. It can be used to filter based on specific IP addresses, but 'any' means we want to match any IP.
+    * **NULL, NULL**: These are optional parameters for specifying a start and end time for searching the log, but they're left blank here to search the entire log.
+    * **N'asc'**: This specifies ascending order for the retrieved results (optional).
+
+**Running this code will typically return a single line similar to:**
+
+```
+Server is listening on [ 'tcp' <ipv4 address> portnumber] 
+```
+
+This line tells you the protocol (TCP in this case), the IP address the server is listening on, and the port number. 
+
+Here are some additional points to consider:
+
+* This code snippet uses the `xp_readerrorlog` extended stored procedure, which is marked for deprecation by Microsoft. It's recommended to use supported methods like SQL Server Management Studio (SSMS) or PowerShell cmdlets for future-proofing your scripts.
+* This retrieves only the first occurrence of the search string. If you need to find all instances where the server started and potentially listened on different ports, you can adjust the parameters accordingly.
+* Be cautious when granting access to extended stored procedures like `xp_readerrorlog`.
+
+I hope this explanation helps!
